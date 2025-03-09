@@ -1,0 +1,98 @@
+[gd_scene load_steps=11 format=3 uid="uid://cwtgcl4lq1b5x"]
+
+[ext_resource type="Script" uid="uid://dolapihainuwk" path="res://scenes/background.gd" id="1_0wfyh"]
+[ext_resource type="Texture2D" uid="uid://dhh01tv663xhs" path="res://assets/Background.png" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://b433plo1pgxh4" path="res://scenes/main.gd" id="1_sugp2"]
+[ext_resource type="Script" uid="uid://cfpckmemrlhxn" path="res://scenes/player.gd" id="4_tbgi4"]
+[ext_resource type="FontFile" uid="uid://b2qc2sa3cxrnr" path="res://assets/kenvector_future.ttf" id="6_tefeu"]
+[ext_resource type="Texture2D" uid="uid://bou5uxivhy7rk" path="res://assets/Player.png" id="6_tipki"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jyhfs"]
+radius = 38.0132
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
+size = Vector2(800, 20)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o6xl0"]
+bg_color = Color(0.164706, 0.164706, 0.164706, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tipki"]
+bg_color = Color(0.133333, 0.854902, 0.454902, 1)
+
+[node name="Main" type="Node"]
+script = ExtResource("1_sugp2")
+
+[node name="Background" type="Node2D" parent="." groups=["DynamicObject"]]
+position = Vector2(0, 480)
+scale = Vector2(2, 2)
+script = ExtResource("1_0wfyh")
+
+[node name="Background" type="Sprite2D" parent="Background"]
+position = Vector2(400, 0)
+texture = ExtResource("1_o5qli")
+
+[node name="Background2" type="Sprite2D" parent="Background"]
+position = Vector2(1200, 0)
+texture = ExtResource("1_o5qli")
+
+[node name="Player" type="RigidBody2D" parent="."]
+position = Vector2(109, 481)
+mass = 2.2
+gravity_scale = 1.6
+continuous_cd = 1
+script = ExtResource("4_tbgi4")
+
+[node name="Sprite" type="Sprite2D" parent="Player"]
+texture = ExtResource("6_tipki")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(4, 0)
+shape = SubResource("CircleShape2D_jyhfs")
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="Ground" type="StaticBody2D" parent="Walls"]
+position = Vector2(401, 970)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Ground"]
+shape = SubResource("RectangleShape2D_tbgi4")
+
+[node name="Roof" type="StaticBody2D" parent="Walls"]
+position = Vector2(390, -934)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Roof"]
+position = Vector2(11, 992)
+shape = SubResource("RectangleShape2D_tbgi4")
+
+[node name="UI" type="Control" parent="."]
+z_index = 5
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HealthBar" type="ProgressBar" parent="UI"]
+layout_mode = 0
+offset_right = 1600.0
+offset_bottom = 68.0
+theme_override_styles/background = SubResource("StyleBoxFlat_o6xl0")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tipki")
+value = 84.74
+show_percentage = false
+
+[node name="ScoreLabel" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 795.0
+offset_top = -2.0
+offset_right = 805.0
+offset_bottom = 26.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_tefeu")
+theme_override_font_sizes/font_size = 60
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
